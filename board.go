@@ -35,7 +35,6 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"github.com/mikepb/go-serial"
 	"io/ioutil"
 	"log"
 	"math"
@@ -49,6 +48,7 @@ import (
 	"strings"
 	"sync"
 	"time"
+	"github.com/mikepb/go-serial"
 )
 
 type Source int
@@ -680,7 +680,7 @@ func (board *Board) reset(prerequisites bool) {
 		exists := ""
 		prerequisitesSource := NoSource
 
-		url := "https://ide.whitecatboard.org/boards/prerequisites.zip"
+		url := BaseIdeURL + "/boards/prerequisites.zip"
 
 		log.Println("Downloading prerequisites from " + url + " ...")
 

@@ -30,8 +30,8 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
-	"github.com/kardianos/osext"
 	"io/ioutil"
 	"log"
 	"os"
@@ -39,6 +39,8 @@ import (
 	"os/user"
 	"path"
 	"runtime"
+
+	"github.com/kardianos/osext"
 )
 
 var Version string = "2.2"
@@ -49,9 +51,32 @@ var AppDataFolder string = "/"
 var AppDataTmpFolder string = "/tmp"
 var AppFileName = ""
 
-var LastBuildURL = "http://whitecatboard.org/lastbuildv2.php"
-var FirmwareURL = "http://whitecatboard.org/firmwarev2.php"
-var SupportedBoardsURL = "https://raw.githubusercontent.com/whitecatboard/Lua-RTOS-ESP32/master/boards/boards.json"
+type Configuration struct {
+	BaseURL     string
+	SupportURL  string
+	DownloadURL string
+	BaseIdeURL  string
+	HttpProxy   string
+	HttpsProxy  string
+}
+
+/* "http://whitecatboard.org" */
+var BaseURL = "http://localhost:8082"
+
+/* "https://raw.githubusercontent.com/whitecatboard/Lua-RTOS-ESP32/master" */
+var BaseSupportURL = BaseURL + "/support"
+
+/* "http://downloads.whitecatboard.org" */
+var BaseDownloadURL = BaseURL + "/download"
+
+/* "https://ide.whitecatboard.org" */
+var BaseIdeURL = BaseURL + "/ide"
+
+var LastBuildURL = BaseURL + "/lastbuildv2.php"
+var FirmwareURL = BaseURL + "/firmwarev2.php"
+var SupportedBoardsURL = BaseSupportURL + "/boards/boards.json"
+var HttpProxy = ""
+var HttpsProxy = ""
 
 func usage() {
 	fmt.Println("wccagent: usage: wccagent [-b | -lf | -lc | -ui | -v]")
@@ -175,6 +200,44 @@ func main() {
 	} else {
 		// User does not want log
 		log.SetOutput(ioutil.Discard)
+	}
+
+	// Set defalt settings
+	configuration := Configuration{
+		BaseURL:     BaseURL,
+		SupportURL:  BaseSupportURL,
+		DownloadURL: BaseDownloadURL,
+		BaseIdeURL:  BaseIdeURL,
+		HttpProxy:   HttpProxy,
+		HttpsProxy:  HttpsProxy,
+	}
+
+	inifile := path.Join(AppDataFolder, "wccagent.json")
+	log.Println("Checking ", inifile)
+	if _, err := os.Stat(inifile); err == nil {
+		ff, _ := os.Open(inifile)
+		defer ff.Close()
+		decoder := json.NewDecoder(ff)
+		err = decoder.Decode(&configuration)
+		if err != nil {
+			panic(err)
+		} else {
+			BaseURL = configuration.BaseURL
+			BaseSupportURL = configuration.SupportURL
+			BaseDownloadURL = configuration.DownloadURL
+			BaseIdeURL = configuration.BaseIdeURL
+			HttpProxy = configuration.HttpProxy
+			HttpsProxy = configuration.HttpsProxy
+			LastBuildURL = BaseURL + "/lastbuildv2.php"
+			FirmwareURL = BaseURL + "/firmwarev2.php"
+			SupportedBoardsURL = BaseSupportURL + "/boards/boards.json"
+			os.Setenv("HTTP_PROXY", HttpProxy)
+			os.Setenv("HTTPS_PROXY", HttpsProxy)
+			log.Println("HTTP_PROXY: ", HttpProxy)
+			log.Println("HTTPS_PROXY: ", HttpsProxy)
+		}
+	} else if os.IsNotExist(err) {
+		// TODO: write default settings
 	}
 
 	start(withUI, withBackground)

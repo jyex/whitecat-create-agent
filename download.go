@@ -90,7 +90,7 @@ func unzip(src, dest string) error {
 func downloadEsptool() error {
 	notify("boardUpdate", "Downloading esptool")
 
-	url := "http://downloads.whitecatboard.org/esptool/esptool-" + runtime.GOOS + ".zip"
+	url := BaseDownloadURL + "/esptool/esptool-" + runtime.GOOS + ".zip"
 
 	log.Println("downloading esptool from " + url + " ...")
 

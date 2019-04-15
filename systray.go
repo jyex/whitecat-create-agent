@@ -52,7 +52,7 @@ func setupSysTrayAgent() {
 		for {
 			select {
 			case <-mGoToIde.ClickedCh:
-				open.Run("https://ide.whitecatboard.org")
+				open.Run(BaseIdeURL)
 
 			//case <-mUpdate.ClickedCh:
 			//	if (runtime.GOOS == "darwin") {

@@ -1,55 +1,38 @@
-# What's The Whitecat Create Agent?
+# README
+
+This is a fork of [Whitecat Create Agent](https://github.com/whitecatboard/whitecat-create-agent), with following changes and enhancement:
+
+1. Connect to configurable HTTP url (default is http://localhost:8082/) for downloading prerequisites files and board firmware
+2. Save local settings in directory `%HOMEPATH%/.wca` (windows) or `$HOME/.wca` (linux)
+3. If above directory has an **EdgeAgent** shared library (edge-agent.dll or edge-agent.so), load it automatically on startup. _An EdgeAgent can also serve as a local HTTP/Websocket server or proxy for difference use senarios_.
+
+---
+
+## What's The Whitecat Create Agent?
 
 The Whitecat Create Agent is a small piece of software that runs on your computer, and allows the communication beetween a [Lua RTOS device](https://github.com/whitecatboard/Lua-RTOS-ESP32) and [The Whitecat IDE](https://github.com/whitecatboard/whitecat-ide). This is needed because the IDE must perform many operations that needs to use your computer hardware, and the IDE is on the cloud!. The communication beetween the agent and the IDE is made using websockets
 
-# How to build?
+## How to build?
 
 1. Go to your Go's workspace location
 
    For example:
 
-   ```lua
-   cd gows
+   ```Bash
+   cd $GOPATH
    ```
 
-1. Download and install
+2. Download and install
 
-   ```lua
-   go get github.com/whitecatboard/whitecat-create-agent
+   ```Bash
+   go get github.com/jyex/whitecat-create-agent
    ```
 
-1. Go to the project source root
+3. Go to the project source root, and build project
 
-   ```lua
-   cd src/github.com/whitecatboard/whitecat-create-agent
-   ```
-
-1. Build project
-
-   ```lua
+   ```Bash
+   cd src/github.com/jyex/whitecat-create-agent
    go build
+   # or just run:
+   # go build github.com/jyex/whitecat-create-agent
    ```
-   
-   For execute:
-   
-   Linux / OSX:
-   
-   ```lua
-   ./whitecat-create-agent
-   ```
-   
-   Windows:
-   
-   ```lua
-   whitecat-create-agent.exe
-   ```
-
-# Read the wiki
-
-You can find more informatio about The Whitecat Create Agent in our [wiki](https://github.com/whitecatboard/whitecat-create-agent/wiki).
-
----
-The Whitecat Create Agent is free for you, but funds are required for make it possible. Feel free to donate as little or as much as you wish. Every donation is very much appreciated.
-
-[![paypal](https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=M8BG7JGEPZUP6&lc=US)
-

@@ -1,0 +1,8 @@
+{
+  "BaseURL": "http://whitecatboard.org",
+  "SupportURL": "https://raw.githubusercontent.com/whitecatboard/Lua-RTOS-ESP32/master",
+  "DownloadURL": "http://downloads.whitecatboard.org",
+  "BaseIdeURL": "https://ide.whitecatboard.org",
+  "HttpProxy": "http://10.10.5.18:8080",
+  "HttpsProxy": "http://10.10.5.18:8080"
+}
