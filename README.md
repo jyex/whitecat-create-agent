@@ -2,9 +2,11 @@
 
 This is a fork of [Whitecat Create Agent](https://github.com/whitecatboard/whitecat-create-agent), with following changes and enhancement:
 
-1. Connect to configurable HTTP url (default is http://localhost:8082/) for downloading prerequisites files and board firmware
-2. Save local settings in directory `%HOMEPATH%/.wca` (windows) or `$HOME/.wca` (linux)
-3. If above directory has an **EdgeAgent** shared library (edge-agent.dll or edge-agent.so), load it automatically on startup. _An EdgeAgent can also serve as a local HTTP/Websocket server or proxy for difference use senarios_.
+1. Connect to configurable HTTP url (default is http://localhost:8082/) for downloading prerequisites files and board firmware, these urls can be customized in `wccagent.json` file
+
+2. Save local settings and logs in directory `%USERPROFILE%\AppData\WhitecatCreateAgent` (windows) or `$HOME/.wccagent` (linux or darwin)
+
+3. (TODO) If above directory has an **EdgeAgent** shared library (edge-agent.dll or edge-agent.so), load it automatically on startup. _An EdgeAgent can also serve as a local HTTP/Websocket server or proxy for difference use senarios_.
 
 ---
 
